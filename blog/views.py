@@ -56,7 +56,7 @@ def logout_user(request):
     logout(request)
     return redirect('login')
 
-@login_required
+@login_required(login_url='login')
 def blog_list(request):
     query = request.GET.get('query')
     if query:
@@ -71,7 +71,7 @@ def blog_list(request):
 
     return render(request, 'blog_list.html', {'page_obj': page_obj, 'query': query})
 
-@login_required
+@login_required(login_url='login')
 def blog_detail(request, slug):
     blog = get_object_or_404(Blog, slug=slug)
     comments = blog.comments.all()
@@ -80,7 +80,7 @@ def blog_detail(request, slug):
     return render(request, 'blog_detail.html', {'blog': blog, 'comments': comments})
 
 
-@login_required
+@login_required(login_url='login')
 def add_comment(request, slug):
     if request.method == 'POST':
         blog = get_object_or_404(Blog, slug=slug)
@@ -92,7 +92,7 @@ def add_comment(request, slug):
     return redirect('blog_detail', slug=slug)
 
 
-@login_required
+@login_required(login_url='login')
 def like_comment(request, comment_id):
     comment = get_object_or_404(Comment, pk=comment_id)
     
